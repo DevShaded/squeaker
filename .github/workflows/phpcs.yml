@@ -1,0 +1,19 @@
+name: "PHP CS"
+
+on:
+  push:
+    branches: [ "main", "dev", "test" ]
+  pull_request:
+    branches: [ "main", "dev", "test" ]
+
+jobs:
+  phplint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: "laravel-pint"
+        uses: aglipanci/laravel-pint-action@2.0.0
+        with:
+          preset: laravel
+          verboseMode: true
+          testMode: true
