@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\Post\Comment\CreateCommentController;
+use App\Http\Controllers\Post\Comment\Reply\CreateReplyController;
+use App\Http\Controllers\Post\Dislike\DislikeController;
+use App\Http\Controllers\Post\Like\LikeController;
+use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\Post\Search\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +21,17 @@ use Inertia\Inertia;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return Inertia::render('Index');
-    });
+    Route::get('/', [PostController::class, 'index']);
+    Route::get('/squeak/{id}', [PostController::class, 'show']);
+    Route::get('/post/create', [PostController::class, 'create']);
+    Route::post('/post/store', [PostController::class, 'store']);
+
+    Route::match(['get', 'post'], '/search', SearchController::class);
+
+    Route::post('/squeak/{id}/like', LikeController::class);
+    Route::post('/squeak/{id}/unlike', DislikeController::class);
+    Route::post('/squeak/{id}/comment', CreateCommentController::class);
+    Route::post('/squeak/{id}/reply', CreateReplyController::class);
 });
 
 Route::post('logout', function (Request $request) {

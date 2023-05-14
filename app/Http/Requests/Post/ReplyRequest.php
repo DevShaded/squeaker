@@ -9,9 +9,9 @@ class ReplyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'exists:users'],
-            'comment_id' => ['required', 'exists:comments'],
-            'content' => ['required', 'string', 'max:280'],
+            'user_id' => ['required', 'exists:users,id'],
+            'comment_id' => ['required', 'exists:comments,id'],
+            'content' => ['required', 'string', 'max:150'],
         ];
     }
 

@@ -9,9 +9,9 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'exists:users'],
-            'post_id' => ['required', 'exists:posts'],
-            'content' => ['required'],
+            'user_id' => ['required', 'exists:users,id'],
+            'post_id' => ['required', 'exists:posts,id'],
+            'content' => ['required', 'string', 'max:150'],
         ];
     }
 
