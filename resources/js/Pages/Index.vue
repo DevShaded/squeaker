@@ -1,9 +1,24 @@
 <script setup lang="ts">
-import {ArrowTrendingUpIcon, FireIcon, HomeIcon, UserGroupIcon} from '@heroicons/vue/24/outline'
+import { ArrowTrendingUpIcon, FireIcon, HomeIcon, UserGroupIcon } from '@heroicons/vue/24/outline'
+import { defineProps, reactive, ref } from "vue";
+import { Post } from "../types/Post";
+import { Link } from "@inertiajs/vue3";
+import { TrendingPosts } from "../types/TrendingPosts";
+import { WhoToFollowType } from "../types/WhoToFollow";
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import AuthenticatedLayout from "../Layouts/AuthenticatedLayout.vue";
 import WhoToFollow from "../Components/WhoToFollow.vue";
 import TrendingSqueaks from "../Components/TrendingSqueaks.vue";
 import Squeak from "../Components/Squeak.vue";
+
+const props = defineProps<{
+    data: object,
+}>()
+
+const recentPosts = reactive<Post[]>(props?.data?.posts.recent.data)
+const mostLikedPosts = reactive<Post[]>(props?.data?.posts.mostLiked.data)
+const trendingPosts = reactive<TrendingPosts[]>(props?.data?.trendingPosts)
+const whoToFollow = reactive<WhoToFollowType[]>(props?.data?.whoToFollow)
 
 const navigation = [
     { name: 'Home', href: '#', icon: HomeIcon, current: true },
@@ -15,48 +30,12 @@ const navigation = [
 const tabs = [
     { name: 'Recent', href: '#', current: true },
     { name: 'Most Liked', href: '#', current: false },
-    { name: 'Most Comments', href: '#', current: false },
 ]
-const squeaks = [
-    {
-        id: '81614',
-        likes: '29',
-        replies: '11',
-        views: '2.7k',
-        author: {
-            name: 'Dries Vincent',
-            imageUrl:
-                'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            href: '#',
-        },
-        date: 'December 9 at 11:43 AM',
-        datetime: '2020-12-09T11:43:00',
-        href: '#',
-        content: 'I would have used a bigger fence\n. And I would have made sure the dinosaurs could not escape.',
-    },
-]
-const whoToFollow = [
-    {
-        name: 'Leonard Krasner',
-        handle: 'leonardkrasner',
-        href: '#',
-        imageUrl:
-            'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    // More people...
-]
-const trendingSqueaks = [
-    {
-        id: 1,
-        user: {
-            name: 'Floyd Miles',
-            imageUrl:
-                'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        body: 'What books do you have on your bookshelf just to look smarter than you actually are?',
-        comments: 291,
-    },
-]
+
+const selectedTab = ref(0)
+function changeTab(index) {
+    selectedTab.value = index
+}
 </script>
 
 
@@ -75,35 +54,51 @@ const trendingSqueaks = [
                 </nav>
             </div>
             <section class="lg:col-span-9 xl:col-span-6">
-                <div class="px-4 sm:px-0">
-                    <div class="sm:hidden">
-                        <label for="question-tabs" class="sr-only">Select a tab</label>
-                        <select id="question-tabs" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                            <option v-for="tab in tabs" :key="tab.name" :selected="tab.current">{{ tab.name }}</option>
-                        </select>
+                <TabGroup as="template" :selectedIndex="selectedTab" @change="changeTab">
+                    <TabList class="px-4 sm:px-0">
+                        <TabList class="block mx-4">
+                            <nav class="isolate divide-x flex divide-gray-200 rounded-lg shadow" aria-label="Tabs">
+                                <Tab v-for="(tab, tabIdx) in tabs" :key="tab.name" v-slot="{ selected }" :href="tab.href" :aria-current="tab.current ? 'page' : undefined" :class="[tab.current ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700', tabIdx === 0 ? 'rounded-l-lg' : '', tabIdx === tabs.length - 1 ? 'rounded-r-lg' : '', 'group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-6 text-center text-sm font-medium hover:bg-gray-50 focus:z-10']">
+                                    <span>{{ tab.name }}</span>
+                                    <span aria-hidden="true" :class="[selected ? 'bg-indigo-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5']" />
+                                </Tab>
+                            </nav>
+                        </TabList>
+                    </TabList>
+                    <div class="mt-4">
+                        <h1 class="sr-only">Recent Squeaks</h1>
+                        <TabPanels role="list" class="space-y-4">
+                            <TabPanel>
+                                <ul v-for="squeak in recentPosts" :key="squeak.id" class="bg-white mx-4 my-6 px-4 py-6 shadow sm:rounded-lg sm:p-6">
+                                    <Squeak :squeak="squeak" />
+                                </ul>
+
+                                <div class="flex justify-end items-end space-x-3 mt-4 pr-4">
+                                    <Link v-if="props.data.posts.recent.links.prev" :href="props.data.posts.recent.links.prev" class="ml-6 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Previous Page</Link>
+                                    <Link v-if="props.data.posts.recent.links.next" :href="props.data.posts.recent.links.next" class="ml-6 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Next Page</Link>
+                                    <Link v-if="props.data.posts.recent.meta.current_page === props.data.posts.recent.links.last" href="/" class="ml-6 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Go to start page</Link>
+                                </div>
+                            </TabPanel>
+
+                            <TabPanel>
+                                <ul v-for="squeak in mostLikedPosts" :key="squeak.id" class="bg-white mx-4 my-6 px-4 py-6 shadow sm:rounded-lg sm:p-6">
+                                    <Squeak :squeak="squeak" />
+                                </ul>
+
+                                <div class="flex justify-end items-end space-x-3 mt-4 pr-4">
+                                    <Link v-if="props.data.posts.mostLiked.links.prev" :href="props.data.posts.recent.links.prev" class="ml-6 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Previous Page</Link>
+                                    <Link v-if="props.data.posts.mostLiked.links.next" :href="props.data.posts.recent.links.next" class="ml-6 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Next Page</Link>
+                                    <Link v-if="props.data.posts.mostLiked.meta.current_page === props.data.posts.recent.links.last" href="/" class="ml-6 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Go to start page</Link>
+                                </div>
+                            </TabPanel>
+                        </TabPanels>
                     </div>
-                    <div class="hidden sm:block">
-                        <nav class="isolate flex divide-x divide-gray-200 rounded-lg shadow" aria-label="Tabs">
-                            <a v-for="(tab, tabIdx) in tabs" :key="tab.name" :href="tab.href" :aria-current="tab.current ? 'page' : undefined" :class="[tab.current ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700', tabIdx === 0 ? 'rounded-l-lg' : '', tabIdx === tabs.length - 1 ? 'rounded-r-lg' : '', 'group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-6 text-center text-sm font-medium hover:bg-gray-50 focus:z-10']">
-                                <span>{{ tab.name }}</span>
-                                <span aria-hidden="true" :class="[tab.current ? 'bg-indigo-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5']" />
-                            </a>
-                        </nav>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <h1 class="sr-only">Recent Squeaks</h1>
-                    <ul role="list" class="space-y-4">
-                        <li v-for="squeak in squeaks" :key="squeak.id" class="bg-white px-4 py-6 shadow sm:rounded-lg sm:p-6">
-                            <Squeak :squeak="squeak" />
-                        </li>
-                    </ul>
-                </div>
+                </TabGroup>
             </section>
             <aside class="hidden xl:col-span-4 xl:block">
                 <div class="sticky top-4 space-y-4">
                     <WhoToFollow :who-to-follow="whoToFollow" />
-                    <TrendingSqueaks :trending-squeaks="trendingSqueaks" />
+                    <TrendingSqueaks :trending-squeaks="trendingPosts" />
                 </div>
             </aside>
         </div>

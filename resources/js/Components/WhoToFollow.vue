@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import {PlusIcon} from "@heroicons/vue/20/solid";
 import {defineProps} from "vue";
+import { WhoToFollowType } from "../types/WhoToFollow";
+import { Link } from "@inertiajs/vue3";
 
 defineProps<{
-    whoToFollow: {
-        name: string,
-        handle: string,
-        imageUrl: string,
-        href: string,
-    }[]
+    whoToFollow: WhoToFollowType[]
 }>()
 </script>
 
@@ -19,16 +16,13 @@ defineProps<{
                 <h2 id="who-to-follow-heading" class="text-base font-medium text-gray-900">Who to follow</h2>
                 <div class="mt-6 flow-root">
                     <ul role="list" class="-my-4 divide-y divide-gray-200">
-                        <li v-for="user in whoToFollow" :key="user.handle" class="flex items-center space-x-3 py-4">
+                        <li v-for="user in whoToFollow" :key="user.id" class="flex items-center space-x-3 py-4">
                             <div class="flex-shrink-0">
-                                <img class="h-8 w-8 rounded-full" :src="user.imageUrl" alt="" />
+                                <img class="h-8 w-8 rounded-full" :src="user.avatar" alt="" />
                             </div>
                             <div class="min-w-0 flex-1">
                                 <p class="text-sm font-medium text-gray-900">
-                                    <a :href="user.href">{{ user.name }}</a>
-                                </p>
-                                <p class="text-sm text-gray-500">
-                                    <a :href="user.href">{{ '@' + user.handle }}</a>
+                                    <Link :href="'/user/' + user.name">{{ user.name }}</Link>
                                 </p>
                             </div>
                             <div class="flex-shrink-0">
@@ -39,9 +33,6 @@ defineProps<{
                             </div>
                         </li>
                     </ul>
-                </div>
-                <div class="mt-6">
-                    <a href="#" class="block w-full rounded-md bg-white px-3 py-2 text-center text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0">View all</a>
                 </div>
             </div>
         </div>
