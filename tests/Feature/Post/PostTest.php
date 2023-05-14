@@ -60,7 +60,7 @@ class PostTest extends TestCase
         $user = $this->authenticate();
         $post = Post::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->get('/squeak/' . $post->id);
+        $response = $this->actingAs($user)->get('/squeak/'.$post->id);
 
         $response->assertSuccessful();
         $response->assertSee($post->title);
