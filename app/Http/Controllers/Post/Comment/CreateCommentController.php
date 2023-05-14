@@ -10,7 +10,8 @@ class CreateCommentController extends Controller
 {
     public function __construct(
         protected CommentService $commentService,
-    ){ }
+    ) {
+    }
 
     public function __invoke(string $id, CommentRequest $request)
     {

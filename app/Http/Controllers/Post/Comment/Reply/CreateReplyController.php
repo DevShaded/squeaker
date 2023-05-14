@@ -10,7 +10,8 @@ class CreateReplyController extends Controller
 {
     public function __construct(
         protected CommentService $commentService,
-    ){ }
+    ) {
+    }
 
     public function __invoke(string $id, ReplyRequest $request)
     {
@@ -19,4 +20,3 @@ class CreateReplyController extends Controller
         return redirect()->back();
     }
 }
-

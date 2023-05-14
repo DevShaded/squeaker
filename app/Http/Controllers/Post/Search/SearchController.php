@@ -13,7 +13,7 @@ class SearchController extends Controller
     {
         // get request input of a username and match it with the users table
 
-        $users = User::where('name', 'like', '%' . $request->input('username') . '%')->paginate(10);
+        $users = User::where('name', 'like', '%'.$request->input('username').'%')->paginate(10);
 
         return Inertia::render('Search/Show', [
             'data' => $users,
