@@ -10,7 +10,7 @@ class UserService
     public function getWhoToFollow(): \Illuminate\Database\Eloquent\Collection
     {
         return User::select('id', 'name', 'avatar')
-            ->orderByRaw('RAND()')
+            ->inRandomOrder()
             ->limit(3)
             ->get();
     }
