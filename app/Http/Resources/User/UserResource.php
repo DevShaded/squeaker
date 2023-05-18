@@ -20,6 +20,13 @@ class UserResource extends JsonResource
             'updated_at' => $this->updated_at,
 
             'posts' => PostResource::collection($this->whenLoaded('posts')),
+            'followers' => UserResource::collection($this->whenLoaded('followers')),
+            'is_following' => $this->when($request->user(), function () use ($request) {
+                return $this->isFollowing($request->user());
+            }),
+            'followers_count' => $this->whenLoaded('followers', function () {
+                return $this->followers->count();
+            }),
         ];
     }
 }

@@ -32,6 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/squeak/{id}/unlike', DislikeController::class);
     Route::post('/squeak/{id}/comment', CreateCommentController::class);
     Route::post('/squeak/{id}/reply', CreateReplyController::class);
+
+    Route::post('/follow/{id}', App\Http\Controllers\User\Follow\FollowController::class);
+    Route::post('/unfollow/{id}', App\Http\Controllers\User\Follow\UnFollowController::class);
 });
 
 Route::post('logout', function (Request $request) {
