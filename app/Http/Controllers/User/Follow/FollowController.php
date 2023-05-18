@@ -9,7 +9,8 @@ class FollowController extends Controller
 {
     public function __construct(
         protected FollowService $followService
-    ){}
+    ) {
+    }
 
     public function __invoke(string $id): \Illuminate\Http\RedirectResponse
     {
