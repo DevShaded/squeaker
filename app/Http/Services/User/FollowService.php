@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\User;
 
-use App\Models\User;
+use App\Models\User\User;
 
 class FollowService
 {

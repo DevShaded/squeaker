@@ -3,7 +3,7 @@
 namespace App\Http\Services\User;
 
 use App\Http\Resources\User\UserResource;
-use App\Models\User;
+use App\Models\User\User;
 
 class UserService
 {

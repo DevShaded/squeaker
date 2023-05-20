@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\OAuth\Github;
 
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
