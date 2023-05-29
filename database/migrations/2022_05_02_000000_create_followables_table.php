@@ -14,7 +14,7 @@ class CreateFollowablesTable extends Migration
             } else {
                 $table->id();
             }
-            $table->unsignedBigInteger(config('follow.user_foreign_key', 'user_id'))->index()->comment('user_id');
+            $table->foreignUuid(config('follow.user_foreign_key', 'user_id'))->index()->comment('user_id');
             if (config('follow.uuids')) {
                 $table->uuidMorphs('followable');
             } else {

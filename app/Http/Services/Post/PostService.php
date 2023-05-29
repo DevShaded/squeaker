@@ -30,6 +30,11 @@ class PostService
         return new PostResource(Post::with(['user', 'comments', 'likers'])->findOrFail($id));
     }
 
+    public function getPostsFromUser(string $id): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        return PostResource::collection(Post::with(['user', 'likers'])->where('user_id', $id)->latest()->simplePaginate(10));
+    }
+
     public function like(string $id): \Illuminate\Http\RedirectResponse
     {
         $user = $this->userService->getUser(auth()->id());

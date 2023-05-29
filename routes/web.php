@@ -35,6 +35,14 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/follow/{id}', App\Http\Controllers\User\Follow\FollowController::class);
     Route::post('/unfollow/{id}', App\Http\Controllers\User\Follow\UnFollowController::class);
+
+    Route::get('/user/settings', [\App\Http\Controllers\User\Settings\UserSettingsController::class, 'edit']);
+    Route::put('/user/settings/update', [\App\Http\Controllers\User\Settings\UserSettingsController::class, 'update']);
+    Route::delete('/user/settings/delete', [\App\Http\Controllers\User\Settings\UserSettingsController::class, 'destroy']);
+
+    Route::get('/user/{name}', [\App\Http\Controllers\User\Settings\Profile\UserProfileController::class, 'show']);
+    Route::get('/user/settings/profile', [\App\Http\Controllers\User\Settings\Profile\UserProfileController::class, 'edit']);
+    Route::post('/user/settings/profile/update', [\App\Http\Controllers\User\Settings\Profile\UserProfileController::class, 'update']);
 });
 
 Route::post('logout', function (Request $request) {

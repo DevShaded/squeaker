@@ -4,7 +4,7 @@ namespace App\Http\Resources\Post;
 
 use App\Http\Resources\User\UserResource;
 use App\Models\Post\Reply;
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

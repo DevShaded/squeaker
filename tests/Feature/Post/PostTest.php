@@ -3,7 +3,7 @@
 namespace Tests\Feature\Post;
 
 use App\Models\Post\Post;
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;

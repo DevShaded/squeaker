@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Auth;
 
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;

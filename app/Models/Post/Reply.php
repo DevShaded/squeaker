@@ -2,7 +2,7 @@
 
 namespace App\Models\Post;
 
-use App\Models\User;
+use App\Models\User\User;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
