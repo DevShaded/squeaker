@@ -4,6 +4,10 @@ import Editor from '@tinymce/tinymce-vue'
 import {Link, useForm} from '@inertiajs/vue3'
 import { User1 } from "../../../../types/User";
 import { defineProps, ref } from "vue";
+import InputLabel from "../../../../Components/InputLabel.vue";
+import TextInput from "../../../../Components/TextInput.vue";
+import InputError from "../../../../Components/InputError.vue";
+import PrimaryButton from "../../../../Components/PrimaryButton.vue";
 
 const props = defineProps<{
     user: User1
@@ -49,20 +53,30 @@ const submit = () => {
 
                         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div class="sm:col-span-4">
-                                <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+                                <InputLabel for="username" value="Name" />
+
                                 <div class="mt-2">
                                     <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                        <input v-model="form.name" type="text" name="username" id="username" autocomplete="username" class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" :placeholder="user.data.name" />
+                                        <TextInput
+                                            v-model="form.name"
+                                            type="text"
+                                            name="username"
+                                            id="username"
+                                            autocomplete="username"
+                                            class="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                            :placeholder="user.data.name"
+                                        />
                                     </div>
 
-                                    <div v-if="form.errors.name">
-                                        <p class="mt-2 text-sm text-red-600">{{ form.errors.name }}</p>
-                                    </div>
+                                    <InputError
+                                        v-if="form.errors.name"
+                                        :message="form.errors.name"
+                                    />
                                 </div>
                             </div>
 
                             <div class="col-span-full">
-                                <label for="about" class="block text-sm font-medium leading-6 text-gray-900">About</label>
+                                <InputLabel for="about" value="About" />
                                 <div class="mt-2">
                                     <Editor
                                         v-model="form.description"
@@ -74,22 +88,26 @@ const submit = () => {
                                         }"
                                     />
 
-                                    <div v-if="form.errors.description">
-                                        <p class="mt-2 text-sm text-red-600">{{ form.errors.description }}</p>
-                                    </div>
+                                    <InputError
+                                        v-if="form.errors.description"
+                                        :message="form.errors.description"
+                                    />
                                 </div>
                                 <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself. <strong>Markdown is available!</strong></p>
                             </div>
 
                             <div class="col-span-full">
-                                <label for="photo" class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
+                                <InputLabel for="photo" value="Photo" />
+
                                 <div class="mt-2 flex items-center gap-x-3">
                                     <img :src="avatar" :alt="user.data.name" class="w-10 h-10 rounded-full" />
                                     <input type="file" @input="form.avatar = $event.target.files[0]" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                                 </div>
-                                <div v-if="form.errors.avatar">
-                                    <p class="mt-2 text-sm text-red-600">{{ form.errors.avatar }}</p>
-                                </div>
+
+                                <InputError
+                                    v-if="form.errors.avatar"
+                                    :message="form.errors.avatar"
+                                />
                             </div>
                         </div>
                     </div>
@@ -99,33 +117,56 @@ const submit = () => {
 
                         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div class="sm:col-span-4">
-                                <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+                                <InputLabel for="email" value="Email Address" />
+
                                 <div class="mt-2">
-                                    <input v-model="form.email" id="email" name="email" type="email" autocomplete="email" :placeholder="user.data.email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                                    <div v-if="form.errors.email">
-                                        <p class="mt-2 text-sm text-red-600">{{ form.errors.email }}</p>
-                                    </div>
+                                    <TextInput
+                                        v-model="form.email"
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        autocomplete="email"
+                                        :placeholder="user.data.email"
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    />
+
+                                    <InputError
+                                        v-if="form.errors.email"
+                                        :message="form.errors.email"
+                                    />
                                 </div>
                             </div>
 
                             <div class="sm-col-span-4 mt-2">
-                                <label for="dob" class="block text-sm font-medium leading-6 text-gray-900">Date of Birth:</label>
-                                <input v-model="form.dob" type="date" id="dob" name="dob" pattern="\d{4}-\d{2}-\d{2}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                                <div v-if="form.errors.dob">
-                                    <p class="mt-2 text-sm text-red-600">{{ form.errors.dob }}</p>
-                                </div>
+                                <InputLabel for="dob" value="Date of Birth" />
+
+                                <TextInput
+                                    v-model="form.dob"
+                                    type="date"
+                                    id="dob"
+                                    name="dob"
+                                    pattern="\d{4}-\d{2}-\d{2}"
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                />
+
+                                <InputError
+                                    v-if="form.errors.dob"
+                                    :message="form.errors.dob"
+                                />
                             </div>
 
                             <div class="sm:col-span-3">
-                                <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
+                                <InputLabel for="country" value="Country" />
+
                                 <div class="mt-2">
                                     <select v-model="form.country" id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                                         <option v-for="country in props.countries" :key="country.id">{{ country.name }}</option>
                                     </select>
 
-                                    <div v-if="form.errors.country">
-                                        <p class="mt-2 text-sm text-red-600">{{ form.errors.country }}</p>
-                                    </div>
+                                    <InputError
+                                        v-if="form.errors.country"
+                                        :message="form.errors.country"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -133,8 +174,13 @@ const submit = () => {
                 </div>
 
                 <div class="mt-6 flex items-center justify-end gap-x-6">
-                    <Link :href="'/user/' + user.data.name" type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</Link>
-                    <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                    <Link :href="'/user/' + user.data.name" type="button" class="text-sm font-semibold leading-6 text-gray-900">
+                        Cancel
+                    </Link>
+
+                    <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        Save
+                    </PrimaryButton>
                 </div>
             </form>
         </div>
