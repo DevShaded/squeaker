@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 
 defineProps<{
-    modelValue: string;
+    modelValue?: string;
 }>();
 
 defineEmits(['update:modelValue']);
