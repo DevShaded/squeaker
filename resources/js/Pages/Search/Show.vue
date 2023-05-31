@@ -16,7 +16,7 @@ defineProps<{
                         <img class="h-10 w-10 rounded-full" :src="person.avatar" alt="" />
                     </div>
                     <div class="min-w-0 flex-1">
-                        <Link :href="'/user' + person.name" class="focus:outline-none">
+                        <Link :href="'/user/' + person.name" class="focus:outline-none">
                             <span class="absolute inset-0" aria-hidden="true" />
                             <p class="text-sm font-medium text-gray-900">{{ person.name }}</p>
                         </Link>
