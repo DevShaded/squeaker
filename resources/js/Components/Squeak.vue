@@ -49,7 +49,7 @@ function formatNumber(number: number = 0, dec: number): string | undefined {
                 </div>
                 <div class="min-w-0 flex-1">
                     <p class="text-sm font-medium text-gray-900">
-                        <Link :href="'/' + props.squeak.user.id" class="hover:underline">{{ props.squeak.user.name }}</Link>
+                        <Link :href="'/user/' + props.squeak.user.name" class="hover:underline">{{ props.squeak.user.name }}</Link>
                     </p>
                     <p class="text-sm text-gray-500">
                         <time class="hover:underline" :datetime="timestampToDate(props.squeak.created_at)">{{ timestampToDate(props.squeak.created_at) }}</time>

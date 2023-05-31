@@ -7,18 +7,18 @@ import {computed} from "vue";
 import { reactive } from 'vue'
 import { router } from '@inertiajs/vue3'
 
-const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
-]
-
-const navigation = [
-    { name: 'Home', href: '#', icon: HomeIcon, current: true },
-]
-
 const page = usePage()
 
 const user = computed(() => page.props.auth.user)
+
+const userNavigation = [
+    { name: 'Your Profile', href: '/user/' + user.value.name },
+    { name: 'Settings', href: '/user/settings' },
+]
+
+const navigation = [
+    { name: 'Home', href: '/', icon: HomeIcon, current: true },
+]
 
 const form = reactive({
     name: null,

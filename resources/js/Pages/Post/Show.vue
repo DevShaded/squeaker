@@ -62,7 +62,7 @@ function submit() {
                     </div>
                     <div class="min-w-0 flex-1">
                         <p class="text-sm font-medium text-gray-900">
-                            <Link :href="'/' + post.user.id" class="hover:underline">{{ post.user.name }}</Link>
+                            <Link :href="'/user/' + post.user.name" class="hover:underline">{{ post.user.name }}</Link>
                         </p>
                         <p class="text-sm text-gray-500">
                             <time class="hover:underline" :datetime="timestampToDate(post.created_at)">{{ timestampToDate(post.created_at) }}</time>
@@ -140,7 +140,7 @@ function submit() {
                             </div>
                             <div class="min-w-0 flex-1">
                                 <p class="text-sm font-medium text-gray-900">
-                                    <Link :href="'/' + post.user.id" class="hover:underline">{{ comment.user[0].name }}</Link>
+                                    <Link :href="'/user/' + comment.user[0].name" class="hover:underline">{{ comment.user[0].name }}</Link>
                                 </p>
                                 <p class="text-sm text-gray-500">
                                     <time class="hover:underline" :datetime="timestampToDate(comment.created_at)">{{ timestampToDate(comment.created_at) }}</time>

@@ -41,7 +41,7 @@ function formatNumber(number: number = 0, dec: number): string | undefined {
                             </div>
                             <div class="min-w-0 flex-1">
                                 <h3 class="text-sm font-medium text-gray-900">
-                                    <Link :href="post.user.id">{{ post.user.name }}</Link>
+                                    <Link :href="'/user/' + post.user.name">{{ post.user.name }}</Link>
                                 </h3>
                                 <!-- created at -->
                                 <p class="text-sm text-gray-500">

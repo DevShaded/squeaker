@@ -5,16 +5,14 @@ namespace App\Http\Services\User;
 use App\Http\Resources\User\UserResource;
 use App\Models\User\Country\Country;
 use App\Models\User\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
-    public function getWhoToFollow(): \Illuminate\Database\Eloquent\Collection
+    public function getWhoToFollow(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return User::select('id', 'name', 'avatar')
-            ->inRandomOrder()
-            ->limit(3)
-            ->get();
+        return UserResource::collection(User::where('id', '!=', Auth::id())->inRandomOrder()->limit(3)->get());
     }
 
     public function getUser(string $id, $collection = false): UserResource

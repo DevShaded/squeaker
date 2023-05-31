@@ -18,7 +18,7 @@ const props = defineProps<{
 const recentPosts = reactive<Post[]>(props?.data?.posts.recent.data)
 const mostLikedPosts = reactive<Post[]>(props?.data?.posts.mostLiked.data)
 const trendingPosts = reactive<TrendingPosts[]>(props?.data?.trendingPosts)
-const whoToFollow = reactive<WhoToFollowType[]>(props?.data?.whoToFollow)
+const whoToFollow = reactive<WhoToFollowType>(props?.data?.whoToFollow)
 
 const navigation = [
     { name: 'Home', href: '#', icon: HomeIcon, current: true },
