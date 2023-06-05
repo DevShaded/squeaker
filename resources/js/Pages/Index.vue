@@ -7,6 +7,7 @@ import { TrendingPosts } from "../types/TrendingPosts";
 import { WhoToFollowType } from "../types/WhoToFollow";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import AuthenticatedLayout from "../Layouts/AuthenticatedLayout.vue";
+import WhoToFollowComponent from "../Components/WhoToFollow.vue";
 import TrendingSqueaks from "../Components/TrendingSqueaks.vue";
 import Squeak from "../Components/Squeak.vue";
 
@@ -96,7 +97,7 @@ function changeTab(index) {
             </section>
             <aside class="hidden xl:col-span-4 xl:block">
                 <div class="sticky top-4 space-y-4">
-                    <WhoToFollow :who-to-follow="whoToFollow" />
+                    <WhoToFollowComponent :who-to-follow="whoToFollow" />
                     <TrendingSqueaks :trending-squeaks="trendingPosts" />
                 </div>
             </aside>
