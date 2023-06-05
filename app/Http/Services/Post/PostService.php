@@ -17,7 +17,7 @@ class PostService
 
     public function getRecentPosts(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-            return PostResource::collection(Post::with(['user', 'likers'])->withCount('comments')->latest()->simplePaginate(10));
+        return PostResource::collection(Post::with(['user', 'likers'])->withCount('comments')->latest()->simplePaginate(10));
     }
 
     public function getMostLikedPosts(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
