@@ -4,7 +4,7 @@ import CreatePostForm from "./Partials/CreatePostForm.vue";
 </script>
 
 <template>
-    <AuthenticatedLayout>
+    <AuthenticatedLayout title="Create a new Squeak!" content="Create a new squeak to the hole world to share!" url="/post/create">
         <section class="mx-5">
             <div class="max-w-3xl mx-auto bg-white my-10 p-5 rounded-md shadow">
                 <div class="mx-5">

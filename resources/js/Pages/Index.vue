@@ -7,7 +7,6 @@ import { TrendingPosts } from "../types/TrendingPosts";
 import { WhoToFollowType } from "../types/WhoToFollow";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import AuthenticatedLayout from "../Layouts/AuthenticatedLayout.vue";
-import WhoToFollow from "../Components/WhoToFollow.vue";
 import TrendingSqueaks from "../Components/TrendingSqueaks.vue";
 import Squeak from "../Components/Squeak.vue";
 
@@ -40,7 +39,7 @@ function changeTab(index) {
 
 
 <template>
-    <AuthenticatedLayout>
+    <AuthenticatedLayout title="Home" content="Discover Squaker, the ultimate platform to freely express yourself and share your thoughts with the world. Unleash your inner voice and let your mind speak. Join Squaker today and connect with a vibrant community of like-minded individuals ready to listen, engage, and support you." url="/">
     <div class="py-10">
         <div class="mx-auto max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-8 lg:px-8">
             <div class="hidden lg:col-span-3 lg:block xl:col-span-2">

@@ -39,7 +39,7 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthenticatedLayout>
+    <AuthenticatedLayout title="Profile Information" content="Edit your profile information!" url="/user/settings/profile">
         <div class="max-w-7xl mx-auto bg-white px-10 py-5 my-10 sm:rounded-lg shadow">
             <form enctype="multipart/form-data" @submit.prevent="submit">
                 <div class="space-y-12">

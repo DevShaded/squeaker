@@ -1,15 +1,23 @@
 <script setup lang="ts">
 import {Popover, PopoverButton, PopoverPanel} from "@headlessui/vue";
 import {Bars3Icon, HomeIcon, XMarkIcon} from "@heroicons/vue/24/outline";
-import {Link, usePage} from "@inertiajs/vue3";
+import {Link, usePage, Head} from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import SearchForm from "./Partials/SearchForm.vue";
 import ProfileDropdown from "../Components/Layout/ProfileDropdown.vue";
 import { getAvatar } from "../utils/getAvatar";
 
+defineProps<{
+    title: string,
+    content: string,
+    url: string,
+    image?: string,
+}>();
+
 const page = usePage()
 
 const user = computed(() => page.props.auth.user)
+const appDomain = computed(() => page.props.app.url)
 
 const userNavigation = [
     { name: 'Your Profile', href: '/user/' + user.value.name },
@@ -24,6 +32,23 @@ const avatar = ref(getAvatar(user.value.avatar));
 </script>
 
 <template>
+    <Head>
+        <title>{{ title }} - Squeaker</title>
+        <meta name="description" :content="content">
+
+        <meta property="og:url" :content="`${appDomain}${url}`">
+        <meta property="og:title" :content="`${title} - Squeaker`">
+        <meta property="og:description" :content="content">
+        <meta property="og:image" :content="!image ? `/favicons/android-chrome-512x512.png` : getAvatar(image)">
+
+        <meta name="twitter:domain" :content="appDomain">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:url" :content="`${appDomain}${url}`">
+        <meta name="twitter:title" :content="`${title} - Squeaker`">
+        <meta name="twitter:description" :content="content">
+        <meta name="twitter:image" :content="!image ? `/favicons/android-chrome-512x512.png` : getAvatar(image)">
+    </Head>
+
     <div class="min-h-full bg-gray-50">
         <Popover as="template" v-slot="{ open }">
             <header :class="[open ? 'fixed inset-0 z-40 overflow-y-auto' : '', 'bg-white shadow-sm lg:static lg:overflow-y-visible']">

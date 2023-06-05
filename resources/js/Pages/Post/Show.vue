@@ -15,7 +15,7 @@ const post = reactive<Post>(props.data.data)
 </script>
 
 <template>
-    <AuthenticatedLayout>
+    <AuthenticatedLayout :title="'Squeak from ' + post.user.name" :content="post.content" :url="'/squeak/' + post.id">
         <div class="max-w-3xl mx-auto">
             <PostComponent :data="post"/>
 
