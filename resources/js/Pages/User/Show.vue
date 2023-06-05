@@ -9,17 +9,20 @@ import ProfileHeader from "../../Components/User/ProfileHeader.vue";
 import InformationBadges from "../../Components/User/InformationBadges.vue";
 import Description from "../../Components/User/Description.vue";
 import FollowersCount from "../../Components/User/FollowersCount.vue";
+import { getAvatar } from "../../utils/getAvatar";
+import { sanitizeContent } from "../../utils/sanitizeContent";
 
 const props = defineProps<{
     data: User,
 }>()
 
 const posts = reactive<Post[]>(props?.data?.posts.data)
+const description = props?.data?.user?.data?.information?.description
 </script>
 
 <template>
     <div>
-        <AuthenticatedLayout>
+        <AuthenticatedLayout :title="props.data.user.data.name" :content="!description ? 'No description' : sanitizeContent(props.data.user.data.information.description)" :url="'/user/' + props.data.user.data.name" :image="getAvatar(props.data.user.data.avatar)">
             <div class="flex min-w-0 flex-1 flex-col overflow-hidden">
                 <div class="relative z-0 flex flex-1 overflow-hidden">
                     <div class="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last">

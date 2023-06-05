@@ -28,7 +28,7 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <GuestLayout title="Register now!" content="Discover Squaker, the ultimate platform to freely express yourself and share your thoughts with the world. Unleash your inner voice and let your mind speak. Join Squaker today and connect with a vibrant community of like-minded individuals ready to listen, engage, and support you." url="/login">
         <div class="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
             <header class="sm:mx-auto sm:w-full sm:max-w-md">
                 <h1 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Join Squeaker today!</h1>
