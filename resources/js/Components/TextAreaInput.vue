@@ -7,22 +7,22 @@ defineProps<{
 
 defineEmits(['update:modelValue']);
 
-const input = ref<HTMLInputElement | null>(null);
+const textarea = ref<HTMLTextAreaElement | null>(null);
 
 onMounted(() => {
-    if (input.value?.hasAttribute('autofocus')) {
-        input.value?.focus();
+    if (textarea.value?.hasAttribute('autofocus')) {
+        textarea.value?.focus();
     }
 });
 
-defineExpose({ focus: () => input.value?.focus() });
+defineExpose({ focus: () => textarea.value?.focus() });
 </script>
 
 <template>
-    <input
+    <textarea
         class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
         :value="modelValue"
-        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-        ref="input"
+        @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
+        ref="textarea"
     />
 </template>

@@ -25,11 +25,16 @@ export interface CommentsEntity {
     content: string;
     created_at: string;
     updated_at: string;
+    user_id: string;
+    user: User;
+    post_id: string;
+    post: Post;
     replies?: (RepliesEntity)[] | null;
 }
 export interface RepliesEntity {
     id: string;
     user_id: string;
+    user?: User;
     comment_id: string;
     content: string;
     created_at: string;

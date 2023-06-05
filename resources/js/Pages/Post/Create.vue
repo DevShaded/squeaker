@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout.vue";
-import { useForm } from '@inertiajs/vue3'
-
-const form = useForm({
-    content: null,
-})
-
-const submit = () => {
-    form.post('/post/store')
-}
+import CreatePostForm from "./Partials/CreatePostForm.vue";
 </script>
 
 <template>
@@ -21,15 +13,7 @@ const submit = () => {
                         <p class="text-sm text-gray-600">What are you squeaking about?</p>
                     </div>
 
-                    <form @submit.prevent="submit">
-                        <div class="mb-4">
-                            <textarea v-model="form.content" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight border-gray-400 focus:shadow-outline" id="content" name="content" rows="5" placeholder="Enter your post content here"></textarea>
-                            <div v-if="form.errors.content" class="text-red-600 font-medium">{{ form.errors.content }}</div>
-                        </div>
-                        <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" :disabled="form.processing">
-                            Squeak it!
-                        </button>
-                    </form>
+                    <CreatePostForm />
                 </div>
             </div>
         </section>
