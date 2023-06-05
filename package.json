@@ -17,7 +17,9 @@
         "@headlessui/vue": "^1.7.13",
         "@heroicons/vue": "^2.0.17",
         "@inertiajs/vue3": "^1.0.2",
+        "@tinymce/tinymce-vue": "^5.1.0",
         "@vitejs/plugin-vue": "^4.0.0",
-        "@vue/server-renderer": "^3.2.47"
+        "@vue/server-renderer": "^3.2.47",
+        "tinymce": "^6.4.2"
     }
 }

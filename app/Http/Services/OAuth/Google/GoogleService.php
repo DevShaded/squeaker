@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\OAuth\Google;
 
-use App\Models\User;
+use App\Models\User\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;

@@ -1,25 +1,54 @@
 <script setup lang="ts">
-import {Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverPanel} from "@headlessui/vue";
-import {MagnifyingGlassIcon} from "@heroicons/vue/20/solid";
+import {Popover, PopoverButton, PopoverPanel} from "@headlessui/vue";
 import {Bars3Icon, HomeIcon, XMarkIcon} from "@heroicons/vue/24/outline";
-import {Link, usePage} from "@inertiajs/vue3";
-import {computed} from "vue";
+import {Link, usePage, Head} from "@inertiajs/vue3";
+import { computed, ref } from "vue";
+import SearchForm from "./Partials/SearchForm.vue";
+import ProfileDropdown from "../Components/Layout/ProfileDropdown.vue";
+import { getAvatar } from "../utils/getAvatar";
 
-const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
-]
-
-const navigation = [
-    { name: 'Home', href: '#', icon: HomeIcon, current: true },
-]
+defineProps<{
+    title: string,
+    content: string,
+    url: string,
+    image?: string,
+}>();
 
 const page = usePage()
 
 const user = computed(() => page.props.auth.user)
+const appDomain = computed(() => page.props.app.url)
+
+const userNavigation = [
+    { name: 'Your Profile', href: '/user/' + user.value.name },
+    { name: 'Settings', href: '/user/settings' },
+]
+
+const navigation = [
+    { name: 'Home', href: '/', icon: HomeIcon, current: true },
+]
+
+const avatar = ref(getAvatar(user.value.avatar));
 </script>
 
 <template>
+    <Head>
+        <title>{{ title }} - Squeaker</title>
+        <meta name="description" :content="content">
+
+        <meta property="og:url" :content="`${appDomain}${url}`">
+        <meta property="og:title" :content="`${title} - Squeaker`">
+        <meta property="og:description" :content="content">
+        <meta property="og:image" :content="!image ? `/favicons/android-chrome-512x512.png` : getAvatar(image)">
+
+        <meta name="twitter:domain" :content="appDomain">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:url" :content="`${appDomain}${url}`">
+        <meta name="twitter:title" :content="`${title} - Squeaker`">
+        <meta name="twitter:description" :content="content">
+        <meta name="twitter:image" :content="!image ? `/favicons/android-chrome-512x512.png` : getAvatar(image)">
+    </Head>
+
     <div class="min-h-full bg-gray-50">
         <Popover as="template" v-slot="{ open }">
             <header :class="[open ? 'fixed inset-0 z-40 overflow-y-auto' : '', 'bg-white shadow-sm lg:static lg:overflow-y-visible']">
@@ -27,22 +56,14 @@ const user = computed(() => page.props.auth.user)
                     <div class="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
                         <div class="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2">
                             <div class="flex flex-shrink-0 items-center">
-                                <Link href="/" class="font-medium">
-                                    Squeaker
+                                <Link href="/">
+                                    <img class="block h-14 w-auto" src="../../images/logo.png" alt="Squeaker" />
                                 </Link>
                             </div>
                         </div>
                         <div class="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
                             <div class="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
-                                <div class="w-full">
-                                    <label for="search" class="sr-only">Search</label>
-                                    <div class="relative">
-                                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                            <MagnifyingGlassIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                        </div>
-                                        <input id="search" name="search" class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6" placeholder="Search" type="search" />
-                                    </div>
-                                </div>
+                                <SearchForm />
                             </div>
                         </div>
                         <div class="flex items-center md:absolute md:inset-y-0 md:right-0 lg:hidden">
@@ -55,38 +76,27 @@ const user = computed(() => page.props.auth.user)
                         </div>
                         <div class="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
                             <!-- Profile dropdown -->
-                            <Menu as="div" class="relative ml-5 flex-shrink-0">
-                                <div>
-                                    <MenuButton class="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                        <span class="sr-only">Open user menu</span>
-                                        <img class="h-8 w-8 rounded-full" :src="user.avatar" :alt="user.name" />
-                                    </MenuButton>
-                                </div>
-                                <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-                                    <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
-                                            <Link :href="item.href" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">{{ item.name }}</Link>
-                                        </MenuItem>
-                                        <div class="w-full hover:bg-gray-100 focus:bg-gray-100">
-                                            <Link class="block px-4 py-2 text-sm text-gray-700" href="/logout" method="post" as="button" type="button">Sign out</Link>
-                                        </div>
-                                    </MenuItems>
-                                </transition>
-                            </Menu>
+                            <ProfileDropdown :user-navigation="userNavigation" :user="user" />
 
-                            <Link href="#" class="ml-6 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">New Post</Link>
+                            <Link href="/post/create" class="ml-6 inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">New Post</Link>
                         </div>
                     </div>
                 </div>
 
                 <PopoverPanel as="nav" class="lg:hidden" aria-label="Global">
                     <div class="mx-auto max-w-3xl space-y-1 px-2 pb-3 pt-2 sm:px-4">
-                        <a v-for="item in navigation" :key="item.name" :href="item.href" :aria-current="item.current ? 'page' : undefined" :class="[item.current ? 'bg-gray-100 text-gray-900' : 'hover:bg-gray-50', 'block rounded-md py-2 px-3 text-base font-medium']">{{ item.name }}</a>
+                        <Link v-for="item in navigation"
+                              :key="item.name"
+                              :href="item.href"
+                              :aria-current="item.current ? 'page' : undefined"
+                              :class="[item.current ? 'bg-gray-100 text-gray-900' : 'hover:bg-gray-50', 'block rounded-md py-2 px-3 text-base font-medium']">
+                            {{ item.name }}
+                        </Link>
                     </div>
                     <div class="border-t border-gray-200 pt-4">
                         <div class="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
                             <div class="flex-shrink-0">
-                                <img class="h-10 w-10 rounded-full" :src="user.avatar" :alt="user.name" />
+                                <img class="h-10 w-10 rounded-full" :src="avatar" :alt="user.name" />
                             </div>
                             <div class="ml-3">
                                 <div class="text-base font-medium text-gray-800">{{ user.name }}</div>
@@ -102,7 +112,7 @@ const user = computed(() => page.props.auth.user)
                     </div>
 
                     <div class="mx-auto mt-6 max-w-3xl px-4 sm:px-6">
-                        <Link href="#" class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700">New Post</Link>
+                        <Link href="/post/create" class="inline-flex w-full items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">New Post</Link>
                     </div>
                 </PopoverPanel>
             </header>
