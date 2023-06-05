@@ -3,12 +3,15 @@ import { defineProps, ref } from 'vue'
 import { ChatBubbleLeftEllipsisIcon, HandThumbUpIcon, ShareIcon, } from "@heroicons/vue/20/solid";
 import {Link} from "@inertiajs/vue3";
 import { Post } from '../types/Post'
+import { getAvatar } from "../utils/getAvatar";
 
 const props = defineProps<{
     squeak: Post
 }>()
 
 const hasLiked = ref<boolean>(props.squeak.has_liked)
+
+const avatar = ref(getAvatar(props.squeak.user.avatar));
 
 function handleLike() {
     hasLiked.value = !hasLiked.value
@@ -24,20 +27,6 @@ const timestampToDate = (timestamp: string) => {
     const date = new Date(timestamp)
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
-
-function formatNumber(number: number = 0, dec: number): string | undefined {
-    if (isNaN(number)) {
-        number = 0
-    }
-    switch (dec) {
-        case 0:
-            return number.toLocaleString('en-US', { maximumFractionDigits: 0, minimumFractionDigits: 0 })
-        case 1:
-            return number.toLocaleString('en-US', { maximumFractionDigits: 1, minimumFractionDigits: 1 })
-        case 2:
-            return number.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 })
-    }
-}
 </script>
 
 <template>
@@ -45,7 +34,7 @@ function formatNumber(number: number = 0, dec: number): string | undefined {
         <article :aria-labelledby="'question-title-' + props.squeak.id">
             <div class="flex space-x-3">
                 <div class="flex-shrink-0">
-                    <img class="h-10 w-10 rounded-full" :src="props.squeak.user.avatar" :alt="props.squeak.user.name" />
+                    <img class="h-10 w-10 rounded-full" :src="avatar" :alt="props.squeak.user.name" />
                 </div>
                 <div class="min-w-0 flex-1">
                     <p class="text-sm font-medium text-gray-900">

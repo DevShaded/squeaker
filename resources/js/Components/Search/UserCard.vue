@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 import { Data } from "../../types/User";
+import { ref } from "vue";
+import { getAvatar } from "../../utils/getAvatar";
 
-defineProps<{
+const props = defineProps<{
     person: Data
 }>()
+
+const avatar = ref(getAvatar(props.person.avatar));
 </script>
 
 <template>
@@ -16,7 +20,7 @@ defineProps<{
                         <h3 class="truncate text-sm font-medium text-gray-900">{{ person.name }}</h3>
                     </div>
                 </div>
-                <img class="h-14 w-14 flex-shrink-0 rounded-full bg-gray-300" :src="person.avatar" alt="" />
+                <img class="h-14 w-14 flex-shrink-0 rounded-full bg-gray-300" :src="avatar" :alt="person.name" />
             </Link>
         </li>
     </ul>

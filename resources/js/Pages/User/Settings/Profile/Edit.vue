@@ -8,6 +8,7 @@ import InputLabel from "../../../../Components/InputLabel.vue";
 import TextInput from "../../../../Components/TextInput.vue";
 import InputError from "../../../../Components/InputError.vue";
 import PrimaryButton from "../../../../Components/PrimaryButton.vue";
+import { getAvatar } from "../../../../utils/getAvatar";
 
 const props = defineProps<{
     user: User1
@@ -24,12 +25,7 @@ const form = useForm({
     country: props.user.data.information?.country?.name ?? null,
 })
 
-let avatar = ref<string>(props.user.data.avatar)
-if (props.user.data.avatar.startsWith('avatar-')) {
-    avatar.value = `/storage/avatars/${props.user.data.avatar}`
-} else {
-    avatar.value = props.user.data.avatar
-}
+const avatar = ref(getAvatar(props.user.data.avatar));
 
 const submit = () => {
     form.post('/user/settings/profile/update', form, {

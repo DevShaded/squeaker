@@ -2,11 +2,15 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { Link } from "@inertiajs/vue3";
 import { Data } from "../../types/User";
+import { ref } from "vue";
+import { getAvatar } from "../../utils/getAvatar";
 
-defineProps<{
+const props = defineProps<{
     user: Data,
     userNavigation: Array<{ name: string, href: string }>
 }>()
+
+const avatar = ref(getAvatar(props.user.avatar));
 </script>
 
 <template>
@@ -14,7 +18,7 @@ defineProps<{
         <div>
             <MenuButton class="flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 <span class="sr-only">Open user menu</span>
-                <img class="h-8 w-8 rounded-full" :src="user.avatar" :alt="user.name" />
+                <img class="h-8 w-8 rounded-full" :src="avatar" :alt="user.name" />
             </MenuButton>
         </div>
         <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">

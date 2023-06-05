@@ -2,9 +2,10 @@
 import {Popover, PopoverButton, PopoverPanel} from "@headlessui/vue";
 import {Bars3Icon, HomeIcon, XMarkIcon} from "@heroicons/vue/24/outline";
 import {Link, usePage} from "@inertiajs/vue3";
-import {computed} from "vue";
+import { computed, ref } from "vue";
 import SearchForm from "./Partials/SearchForm.vue";
 import ProfileDropdown from "../Components/Layout/ProfileDropdown.vue";
+import { getAvatar } from "../utils/getAvatar";
 
 const page = usePage()
 
@@ -18,6 +19,8 @@ const userNavigation = [
 const navigation = [
     { name: 'Home', href: '/', icon: HomeIcon, current: true },
 ]
+
+const avatar = ref(getAvatar(user.value.avatar));
 </script>
 
 <template>
@@ -68,7 +71,7 @@ const navigation = [
                     <div class="border-t border-gray-200 pt-4">
                         <div class="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
                             <div class="flex-shrink-0">
-                                <img class="h-10 w-10 rounded-full" :src="user.avatar" :alt="user.name" />
+                                <img class="h-10 w-10 rounded-full" :src="avatar" :alt="user.name" />
                             </div>
                             <div class="ml-3">
                                 <div class="text-base font-medium text-gray-800">{{ user.name }}</div>
