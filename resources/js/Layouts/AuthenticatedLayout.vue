@@ -3,8 +3,6 @@ import {Popover, PopoverButton, PopoverPanel} from "@headlessui/vue";
 import {Bars3Icon, HomeIcon, XMarkIcon} from "@heroicons/vue/24/outline";
 import {Link, usePage} from "@inertiajs/vue3";
 import {computed} from "vue";
-import { reactive } from 'vue'
-import { router } from '@inertiajs/vue3'
 import SearchForm from "./Partials/SearchForm.vue";
 import ProfileDropdown from "../Components/Layout/ProfileDropdown.vue";
 
@@ -20,14 +18,6 @@ const userNavigation = [
 const navigation = [
     { name: 'Home', href: '/', icon: HomeIcon, current: true },
 ]
-
-const form = reactive({
-    name: null,
-})
-
-function submit() {
-    router.post('/search?username=' + form.name)
-}
 </script>
 
 <template>
