@@ -15,7 +15,7 @@ const authUser = computed(() => page.props.auth.user)
 
 const avatar = ref(getAvatar(props.user.avatar));
 
-const isFollowing = ref<boolean>()
+const isFollowing = ref<boolean>(props.user.is_following)
 const handleFollow = () => {
     isFollowing.value = !isFollowing.value
 
