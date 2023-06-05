@@ -56,8 +56,8 @@ const avatar = ref(getAvatar(user.value.avatar));
                     <div class="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
                         <div class="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2">
                             <div class="flex flex-shrink-0 items-center">
-                                <Link href="/" class="font-medium">
-                                    Squeaker
+                                <Link href="/">
+                                    <img class="block h-14 w-auto" src="../../images/logo.png" alt="Squeaker" />
                                 </Link>
                             </div>
                         </div>
