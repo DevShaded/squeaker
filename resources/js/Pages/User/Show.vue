@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, reactive, ref } from 'vue'
+import { defineProps, reactive } from 'vue'
 import { User } from '../../types/User'
 import { Link } from "@inertiajs/vue3";
 import Squeak from "../../Components/Squeak.vue";
@@ -15,13 +15,6 @@ const props = defineProps<{
 }>()
 
 const posts = reactive<Post[]>(props?.data?.posts.data)
-
-let avatar = ref<string>(props.data.user.data.avatar)
-if (props.data.user.data.avatar.startsWith('avatar-')) {
-    avatar.value = `/storage/avatars/${props.data.user.data.avatar}`
-} else {
-    avatar.value = props.data.user.data.avatar
-}
 </script>
 
 <template>

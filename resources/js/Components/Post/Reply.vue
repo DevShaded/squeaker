@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 import { RepliesEntity } from "../../types/Post";
+import { getAvatar } from "../../utils/getAvatar";
+import { ref } from "vue";
 
-defineProps<{
+const props = defineProps<{
     reply: RepliesEntity
 }>()
 
@@ -10,12 +12,14 @@ const timestampToDate = (timestamp: string) => {
     const date = new Date(timestamp)
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
+
+const avatar = ref(getAvatar(props.reply.user.avatar));
 </script>
 
 <template>
     <div class="bg-white p-4 ml-12 mr-4 my-6 flex overflow-hidden shadow sm:rounded-lg sm:p-6">
         <div class="mr-4 flex-shrink-0">
-            <img class="h-10 w-10 rounded-full" :src="reply.user?.avatar" :alt="reply.user?.name" />
+            <img class="h-10 w-10 rounded-full" :src="avatar" :alt="reply.user?.name" />
         </div>
         <div>
             <p class="text-sm font-medium text-gray-900">

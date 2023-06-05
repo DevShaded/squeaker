@@ -4,6 +4,7 @@ import { PencilSquareIcon, UserMinusIcon, UserPlusIcon } from "@heroicons/vue/24
 import { ArrowLeftIcon } from "@heroicons/vue/24/outline";
 import { Link, usePage } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
+import { getAvatar } from "../../utils/getAvatar";
 
 const props = defineProps<{
     user: Data
@@ -11,6 +12,8 @@ const props = defineProps<{
 
 const page = usePage()
 const authUser = computed(() => page.props.auth.user)
+
+const avatar = ref(getAvatar(props.user.avatar));
 
 const isFollowing = ref<boolean>()
 const handleFollow = () => {
@@ -34,7 +37,7 @@ const handleFollow = () => {
     </div>
     <div class="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5 px-4 sm:px-6 lg:px-8">
         <div class="flex">
-            <img class="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32" :src="props.user.avatar" alt="" />
+            <img class="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32" :src="avatar" :alt="props.user.name" />
         </div>
         <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
             <div class="mt-6 min-w-0 flex-1 2xl:block">

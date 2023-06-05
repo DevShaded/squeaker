@@ -3,6 +3,7 @@ import { defineProps, ref } from "vue";
 import { WhoToFollowType } from "../types/WhoToFollow";
 import { Link } from "@inertiajs/vue3";
 import { UserMinusIcon, UserPlusIcon } from "@heroicons/vue/24/solid";
+import { getAvatar } from "../utils/getAvatar";
 
 const props = defineProps<{
     whoToFollow: WhoToFollowType
@@ -30,7 +31,7 @@ const handleFollow = (item: object) => {
                     <ul role="list" class="-my-4 divide-y divide-gray-200">
                         <li v-for="user in props.whoToFollow.data" :key="user.id" class="flex items-center space-x-3 py-4">
                             <div class="flex-shrink-0">
-                                <img class="h-8 w-8 rounded-full" :src="user.avatar" alt="" />
+                                <img class="h-8 w-8 rounded-full" :src="getAvatar(user.avatar)" alt="" />
                             </div>
                             <div class="min-w-0 flex-1">
                                 <p class="text-sm font-medium text-gray-900">

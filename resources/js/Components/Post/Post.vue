@@ -3,6 +3,7 @@ import { defineProps, reactive, ref } from "vue";
 import { Post } from "../../types/Post";
 import { Link } from "@inertiajs/vue3";
 import { ChatBubbleLeftEllipsisIcon, HandThumbUpIcon, ShareIcon } from "@heroicons/vue/20/solid";
+import { getAvatar } from "../../utils/getAvatar";
 
 const props = defineProps<{
     data: object
@@ -22,6 +23,7 @@ function handleLike() {
     }
 }
 
+const avatar = ref(getAvatar(post.user.avatar));
 const timestampToDate = (timestamp: string) => {
     const date = new Date(timestamp)
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
@@ -32,7 +34,7 @@ const timestampToDate = (timestamp: string) => {
     <article :aria-labelledby="'question-title-' + post.id" class="bg-white mx-4 my-6 px-4 py-6 shadow sm:rounded-lg sm:p-6">
         <div class="flex space-x-3">
             <div class="flex-shrink-0">
-                <img class="h-10 w-10 rounded-full" :src="post.user.avatar" :alt="post.user.name" />
+                <img class="h-10 w-10 rounded-full" :src="avatar" :alt="post.user.name" />
             </div>
             <div class="min-w-0 flex-1">
                 <p class="text-sm font-medium text-gray-900">

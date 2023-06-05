@@ -3,6 +3,7 @@ import { defineProps } from 'vue'
 import {ChatBubbleLeftEllipsisIcon} from "@heroicons/vue/20/solid";
 import {Link} from "@inertiajs/vue3";
 import { TrendingPosts } from "../types/TrendingPosts";
+import { getAvatar } from "../utils/getAvatar";
 
 defineProps<{
     trendingSqueaks: TrendingPosts[]
@@ -37,7 +38,7 @@ function formatNumber(number: number = 0, dec: number): string | undefined {
                     <ul role="list" class="-my-4 divide-y divide-gray-200">
                         <li v-for="post in trendingSqueaks" :key="post.id" class="flex space-x-3 py-4">
                             <div class="flex-shrink-0">
-                                <img class="h-8 w-8 rounded-full" :src="post.user.avatar" :alt="post.user.name" />
+                                <img class="h-8 w-8 rounded-full" :src="getAvatar(post.user.avatar)" :alt="post.user.name" />
                             </div>
                             <div class="min-w-0 flex-1">
                                 <h3 class="text-sm font-medium text-gray-900">
