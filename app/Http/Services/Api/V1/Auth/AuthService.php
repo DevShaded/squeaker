@@ -15,12 +15,12 @@ class AuthService
 
     public function register(StoreUserRequest $request)
     {
-        $request->validated();
+        $request = $request->validated();
 
         return User::create([
             'name' => $request['name'],
             'email' => $request['email'],
-            'avatar' => 'https://ui-avatars.com/api/?name=' . $request['name'],
+            'avatar' => 'https://www.gravatar.com/avatar/'.md5(strtolower(trim($request['name']))).'?s=200&d=mp',
             'password' => Hash::make($request['password']),
         ]);
     }

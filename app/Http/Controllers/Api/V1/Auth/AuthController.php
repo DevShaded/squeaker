@@ -7,10 +7,8 @@ use App\Http\Requests\Api\V1\User\LoginUserRequest;
 use App\Http\Requests\Api\V1\User\StoreUserRequest;
 use App\Http\Resources\Api\V1\Auth\UserResource;
 use App\Http\Services\Api\V1\Auth\AuthService;
-use App\Models\User\User;
 use App\Trait\HttpResponses;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
