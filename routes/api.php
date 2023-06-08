@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Auth\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\Post\Dislike\DislikeController;
+use App\Http\Controllers\Api\V1\Post\Like\LikeController;
+use App\Http\Controllers\Api\V1\Post\PostController;
+use App\Http\Controllers\Api\V1\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,12 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-// group prefix api v1 with middleware auth:sanctum
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('register', [AuthController::class, 'register']);
@@ -28,9 +25,10 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('user', function (Request $request) {
-            return $request->user();
-        });
+        Route::resource('user', UserController::class)->except(['create', 'edit', 'store']);
+        Route::resource('post', PostController::class)->except(['create', 'edit']);
+
+        Route::post('/post/{id}/like', LikeController::class);
+        Route::post('/post/{id}/unlike', DislikeController::class);
     });
 });
-
