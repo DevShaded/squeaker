@@ -1,6 +1,16 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\Auth\AuthController;
+use App\Http\Controllers\Api\V1\Post\Comment\CreateCommentController;
+use App\Http\Controllers\Api\V1\Post\Comment\Reply\CreateReplyController;
+use App\Http\Controllers\Api\V1\Post\Dislike\DislikeController;
+use App\Http\Controllers\Api\V1\Post\Like\LikeController;
+use App\Http\Controllers\Api\V1\Post\PostController;
+use App\Http\Controllers\Api\V1\Post\Search\SearchController;
+use App\Http\Controllers\Api\V1\User\Follow\FollowController;
+use App\Http\Controllers\Api\V1\User\Settings\Profile\UserProfileController;
+use App\Http\Controllers\Api\V1\User\Settings\UserSettingsController;
+use App\Http\Controllers\Api\V1\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +24,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->group(function () {
+    Route::prefix('auth')->group(function () {
+        Route::post('register', [AuthController::class, 'register']);
+        Route::post('login', [AuthController::class, 'login']);
+    });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::resource('user', UserController::class)->except(['create', 'edit', 'store']);
+        Route::post('/user/settings/update', UserSettingsController::class);
+
+        Route::get('/user/settings/profile', [UserProfileController::class, 'show']);
+        Route::post('/user/settings/profile/update', [UserProfileController::class, 'update']);
+
+        Route::post('/user/{id}/follow', [FollowController::class, 'follow']);
+        Route::post('/user/{id}/unfollow', [FollowController::class, 'unfollow']);
+
+        Route::resource('post', PostController::class)->except(['create', 'edit']);
+
+        Route::post('/post/{id}/like', LikeController::class);
+        Route::post('/post/{id}/unlike', DislikeController::class);
+
+        Route::post('/post/{id}/comment', CreateCommentController::class);
+        Route::post('/post/{id}/reply', CreateReplyController::class);
+
+        Route::get('/search/{query}', SearchController::class);
+    });
 });
