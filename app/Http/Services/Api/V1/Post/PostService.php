@@ -17,12 +17,11 @@ class PostService
     ) {
     }
 
-    public function getAllPostsFromUser(string $id): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getAllPosts(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return PostResource::collection(Post::with(['user', 'likers'])
-            ->where('user_id', $id)
-            ->latest()
-            ->simplePaginate(10));
+            ->withCount('comments')
+            ->paginate(10));
     }
 
     public function getPost(string $id): PostResource|null

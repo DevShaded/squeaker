@@ -19,7 +19,7 @@ class PostController extends Controller
     public function index()
     {
         return $this->success([
-            'posts' => $this->postService->getAllPostsFromUser(auth()->id()),
+            'posts' => $this->postService->getAllPosts(),
         ], 200);
     }
 
