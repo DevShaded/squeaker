@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\Post\Dislike\DislikeController;
 use App\Http\Controllers\Api\V1\Post\Like\LikeController;
 use App\Http\Controllers\Api\V1\Post\PostController;
 use App\Http\Controllers\Api\V1\Post\Search\SearchController;
+use App\Http\Controllers\Api\V1\User\Follow\FollowController;
 use App\Http\Controllers\Api\V1\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,10 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::resource('user', UserController::class)->except(['create', 'edit', 'store']);
+
+        Route::post('/user/{id}/follow', [FollowController::class, 'follow']);
+        Route::post('/user/{id}/unfollow', [FollowController::class, 'unfollow']);
+
         Route::resource('post', PostController::class)->except(['create', 'edit']);
 
         Route::post('/post/{id}/like', LikeController::class);
