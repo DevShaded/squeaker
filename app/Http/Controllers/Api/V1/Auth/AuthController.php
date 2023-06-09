@@ -16,13 +16,14 @@ class AuthController extends Controller
 
     public function __construct(
         protected AuthService $authService
-    ) {}
+    ) {
+    }
 
     public function login(LoginUserRequest $request): \Illuminate\Http\JsonResponse
     {
         $request = $request->validated();
 
-        if (!Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
+        if (! Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
             return $this->error('', 'Credentials do not match', 401);
         }
 
@@ -30,7 +31,7 @@ class AuthController extends Controller
 
         return $this->success([
             'user' => new UserResource($user),
-            'token' => $user->createToken($user->name . '_token')->plainTextToken,
+            'token' => $user->createToken($user->name.'_token')->plainTextToken,
         ], 200);
     }
 
@@ -40,7 +41,7 @@ class AuthController extends Controller
 
         return $this->success([
             'user' => new UserResource($user),
-            'token' => $user->createToken($user->name . '_token')->plainTextToken,
+            'token' => $user->createToken($user->name.'_token')->plainTextToken,
         ], 201);
     }
 }

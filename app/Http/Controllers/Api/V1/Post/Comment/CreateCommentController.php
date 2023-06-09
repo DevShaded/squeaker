@@ -25,4 +25,3 @@ class CreateCommentController extends Controller
         ], 201, 201);
     }
 }
-

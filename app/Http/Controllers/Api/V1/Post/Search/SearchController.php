@@ -13,9 +13,9 @@ class SearchController extends Controller
 
     public function __invoke(string $query)
     {
-         $users = UserResource::collection(User::where('name', 'like', '%'.$query.'%')->get())->map(function ($user) {
-             return $user->only('id', 'name', 'avatar');
-         });
+        $users = UserResource::collection(User::where('name', 'like', '%'.$query.'%')->get())->map(function ($user) {
+            return $user->only('id', 'name', 'avatar');
+        });
 
         return $this->success([
             'users' => $users,

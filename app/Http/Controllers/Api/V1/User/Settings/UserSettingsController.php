@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api\V1\User\Settings;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Trait\HttpResponses;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class UserSettingsController extends Controller
 {
